@@ -1,10 +1,9 @@
 package com.example.interviews;
 
-import com.example.interviews.model.Candidates;
-import com.example.interviews.service.CandidatesService;
+import com.example.interviews.model.Candidate;
+import com.example.interviews.service.CandidateService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,19 +11,19 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+
 public class CandidatesServiceTest {
-    private List<Candidates> dataTest = new ArrayList<>( Arrays.asList(
-            new Candidates(1,"Ahmad", "15/6/2020", "10 am", "10 am", "Java"),
-            new Candidates(2,"Khaled",  "15/6/2020", "11 am", "12 pm", "backend"),
-            new Candidates(3,"Wesam",  "15/6/2020", "11 am", "12 pm", "DV"),
-            new Candidates(4,"Husam",  "15/6/2020", "1 pm", "2 pm", "frontend")
+    private List<Candidate> dataTest = new ArrayList<>( Arrays.asList(
+            new Candidate(1,"Ahmad", "15/6/2020", "10 am", "10 am", "Java"),
+            new Candidate(2,"Khaled",  "15/6/2020", "11 am", "12 pm", "backend"),
+            new Candidate(3,"Wesam",  "15/6/2020", "11 am", "12 pm", "DV"),
+            new Candidate(4,"Husam",  "15/6/2020", "1 pm", "2 pm", "frontend")
     ));
 
-    CandidatesService candidatesService;
+    CandidateService candidatesService;
     @BeforeEach
     void getNewInstance(){
-        candidatesService = new CandidatesService();
+        candidatesService = new CandidateService();
     }
 
     @Test
@@ -44,7 +43,7 @@ public class CandidatesServiceTest {
     }
     @Test
     void saveTest(){
-        Candidates newCandidatesTest = new Candidates(6,"Zuhair",  "1/7/2020", "1 pm", "2 pm", "DV");
+        Candidate newCandidatesTest = new Candidate(6,"Zuhair",  "1/7/2020", "1 pm", "2 pm", "DV");
         dataTest.add(newCandidatesTest);
         candidatesService.save(newCandidatesTest);
         assertTrue(newCandidatesTest.equals(candidatesService.getById(6)) , "error in save method ");

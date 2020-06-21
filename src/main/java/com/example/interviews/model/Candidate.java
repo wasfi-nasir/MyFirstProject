@@ -1,6 +1,6 @@
 package com.example.interviews.model;
 
-public class Candidates {
+public class Candidate {
     private int id;
     private String name;
     private String  date;
@@ -8,10 +8,7 @@ public class Candidates {
     private String toHour;
     private String subject;
 
-    public Candidates() {
-    }
-
-    public Candidates(int id, String name, String date, String fromHour, String toHour, String subject) {
+    public Candidate(int id, String name, String date, String fromHour, String toHour, String subject) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -71,7 +68,7 @@ public class Candidates {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Candidates that = (Candidates) o;
+        Candidate that = (Candidate) o;
         return id == id &&
                 name.equals(that.name) &&
                 date.equals(that.date) &&

@@ -1,15 +1,15 @@
 package com.example.interviews.model;
 
-public class Interviewers {
+public class Interviewer {
     private int id;
     private String name;
     private String phone;
     private String email;
     private String jobTitle;
 
-    public Interviewers(){
+    public Interviewer(){
     }
-    public Interviewers(int id, String name, String phone, String email, String jobTitle) {
+    public Interviewer(int id, String name, String phone, String email, String jobTitle) {
         this.id = id;
         this.name = name;
         this.phone = phone;

@@ -1,0 +1,34 @@
+package com.example.interviews.exception;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
+@ControllerAdvice
+public class ApiExceptionsHandler extends ResponseEntityExceptionHandler {
+
+    final Logger logger=LoggerFactory.getLogger(ApiExceptionsHandler.class);
+
+    @ExceptionHandler(value = {CommonException.class})
+    public ResponseEntity<ApiError> resourceNotFoundException (CommonException ex, WebRequest request){
+        logger.error("test the error {}", ex);
+        ApiError apiError = new ApiError(ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity<>(apiError, new HttpHeaders(), ex.getError().getStatus());
+    }
+
+//
+//    @ExceptionHandler(value = {RuntimeException.class})
+//    public ResponseEntity<Object> myExeptionHandler (Exception ex, WebRequest request){
+//
+//        logger.error("test the error");
+//        ApiError apiError = new ApiError("Internal server error", request.getDescription(false));
+//        return new ResponseEntity<>(apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//    }
+
+
+}
