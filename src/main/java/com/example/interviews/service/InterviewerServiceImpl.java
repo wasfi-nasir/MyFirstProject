@@ -2,13 +2,13 @@ package com.example.interviews.service;
 
 import com.example.interviews.model.Interviewer;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class InterviewerService {
+public class InterviewerServiceImpl {
     private List<Interviewer> data = new ArrayList<>( Arrays.asList(
             new Interviewer(1,"Mosab", "0595000000", "mosab@gmail.com", "Backend developer"),
             new Interviewer(2,"Ali",  "0592000000", "Ali@gmail.com", "Frontend developer"),
@@ -17,8 +17,8 @@ public class InterviewerService {
 
     ));
 
-    public List<Interviewer> findAll() {
-        return data;
+    public List<Interviewer> getAll(int page, int limit) {
+        return data.stream().skip(page).limit(limit).collect(Collectors.toList());
     }
 
     public Interviewer getById(int id) {
@@ -26,9 +26,11 @@ public class InterviewerService {
             if (todo.getId() == id) return todo;
         return null;
     }
-    public boolean save(Interviewer todo){
-        return data.add(todo);
+
+    public boolean save(Interviewer interviewer){
+        return data.add(interviewer);
     }
+
     public void delete(int id){
         for (Interviewer interviewer: data)
             if (interviewer.getId() == id)  data.remove(interviewer);
@@ -40,8 +42,5 @@ public class InterviewerService {
             if (t.getId() == id)
                 data.set(i, interviewerModify);
         }
-    }
-    public int divide(int a, int b){
-        return a/b;
     }
 }

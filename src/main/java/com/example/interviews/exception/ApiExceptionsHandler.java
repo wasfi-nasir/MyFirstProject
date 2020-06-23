@@ -1,5 +1,7 @@
 package com.example.interviews.exception;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import org.slf4j.Logger;
@@ -19,16 +21,11 @@ public class ApiExceptionsHandler extends ResponseEntityExceptionHandler {
         ApiError apiError = new ApiError(ex.getMessage(),request.getDescription(false));
         return new ResponseEntity<>(apiError, new HttpHeaders(), ex.getError().getStatus());
     }
-
-//
-//    @ExceptionHandler(value = {RuntimeException.class})
-//    public ResponseEntity<Object> myExeptionHandler (Exception ex, WebRequest request){
-//
-//        logger.error("test the error");
-//        ApiError apiError = new ApiError("Internal server error", request.getDescription(false));
-//        return new ResponseEntity<>(apiError, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//    }
-
-
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        logger.error("test the error {}", ex);
+       // ex.getBindingResult().getAllErrors().forEach(s-> {s.getDefaultMessage()})
+        ApiError apiError = new ApiError( ex.getBindingResult().getFieldError().getDefaultMessage(), request.getDescription(false));
+        return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
 }

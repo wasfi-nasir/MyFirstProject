@@ -1,41 +1,73 @@
 package com.example.interviews.controller;
 
-import com.example.interviews.interfaces.InterviewServiceInterface;
-import com.example.interviews.service.InterviewerService;
+import com.example.interviews.exception.CommonException;
+import com.example.interviews.exception.ErrorEnums;
+import com.example.interviews.service.InterviewService;
+import com.example.interviews.service.InterviewerServiceImpl;
 import com.example.interviews.model.Interviewer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/interviewers")
-public class InterviewerController implements InterviewServiceInterface {
-
+public class InterviewerController implements InterviewService {
+    private final static Logger logger = LoggerFactory.getLogger(CandidateController.class);
     @Autowired
-    private InterviewerService interviewersService;
+    private InterviewerServiceImpl interviewersService;
 
-    @GetMapping(value = {"/", ""})
-    public List<Interviewer> getAllInterviewer(){
-        return interviewersService.findAll();
+    @GetMapping(value = {"/", ""}, params = { "page", "limit" })
+    public List<Interviewer> getAllInterviewer(@RequestParam("page") int page, @RequestParam("limit") int limit){
+        logger.debug("getAllInterviewer method accessed");
+        if(page < 0) {
+            throw new CommonException(ErrorEnums.PAGE_INVALID);
+        }
+        if(limit < 0) {
+            throw new CommonException(ErrorEnums.LIMIT_INVALID);
+        }
+        return (interviewersService.getAll(page, limit));
     }
+
     @GetMapping("/{id}")
-    public Interviewer getInterviewerById(@PathVariable int id){
-        return interviewersService.getById(id);
+    public Interviewer getInterviewerById(@PathVariable("id") int id){
+        logger.debug("getInterviewerById method accessed");
+        if(id < 0) {
+            throw new CommonException(ErrorEnums.ID_INVALID);
+        }
+        else {
+            return interviewersService.getById(id);
+        }
     }
+
     @PostMapping(value = {"/", ""})
-    public Interviewer createNewInterviewer(@RequestBody Interviewer interviewer){
+    public Interviewer createNewInterviewer(@Valid @RequestBody Interviewer interviewer){
+        logger.debug("createNewInterviewer method accessed");
         if (interviewersService.save(interviewer)) return interviewer;
         return null;
     }
 
     @PutMapping("/{id}")
     public void modifyInterviewer(@PathVariable int id, @RequestBody Interviewer interviewer){
-        interviewersService.edit(id, interviewer);
+        logger.debug("modifyInterviewer method accessed");
+        if(id < 0) {
+            throw new CommonException(ErrorEnums.ID_INVALID);
+        }
+        else {
+            interviewersService.edit(id, interviewer);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public void deleteInterviewer(@PathVariable int id){
-        interviewersService.delete(id);
+    public void deleteInterviewer(@PathVariable("id") int id){
+        logger.debug("deleteInterviewer method accessed");
+        if(id < 0) {
+            throw new CommonException(ErrorEnums.ID_INVALID);
+        }
+        else {
+            interviewersService.delete(id);
+        }
     }
 }

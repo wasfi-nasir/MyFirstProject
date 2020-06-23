@@ -1,7 +1,7 @@
 package com.example.interviews;
 
 import com.example.interviews.model.Candidate;
-import com.example.interviews.service.CandidateService;
+import com.example.interviews.service.CandidateServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,24 +20,25 @@ public class CandidatesServiceTest {
             new Candidate(4,"Husam",  "15/6/2020", "1 pm", "2 pm", "frontend")
     ));
 
-    CandidateService candidatesService;
+    CandidateServiceImpl candidatesService;
     @BeforeEach
     void getNewInstance(){
-        candidatesService = new CandidateService();
+        candidatesService = new CandidateServiceImpl();
     }
 
     @Test
     void getAllTest (){
-        assertEquals(dataTest.size(), candidatesService.getAll().size());
-        for (int i = 0; i < candidatesService.getAll().size(); i++)
-            assertTrue(dataTest.get(i).equals(candidatesService.getAll().get(i)) , "mismatch at " + i);
+        assertEquals(dataTest.size(), candidatesService.getAll(0, 100).size());
+        for (int i = 0; i < candidatesService.getAll(0, 100).size(); i++)
+            assertTrue(dataTest.get(i).equals(candidatesService.getAll(0, 100).get(i)) , "mismatch at " + i);
     }
     @Test
     void getByIdTest (){
         int id =3;
         boolean test = false;
+        Candidate c = candidatesService.getById(id);
         for (int i = 0; i < dataTest.size(); i++)
-            test = test || dataTest.get(i).equals(candidatesService.getById(id));
+            test = test || dataTest.get(i).equals(c);
 
         assertTrue(test , " error in get by id ");
     }
@@ -52,8 +53,9 @@ public class CandidatesServiceTest {
     void deleteTest(){
         boolean test = false;
         candidatesService.delete(6);
-        for (int i = 0; i < candidatesService.getAll().size(); i++) {
-            if (candidatesService.getAll().get(i).getId() == 6)
+        List<Candidate> arrayList = candidatesService.getAll(0, 100);
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).getId() == 6)
                 test = true;
         }
         assertFalse(test, "error in deletion");
