@@ -3,6 +3,11 @@ package com.example.interviews.exception;
 public class CommonException extends RuntimeException {
 
     private ErrorEnums error;
+
+    public CommonException(ErrorEnums error, Throwable e) {
+        super(error.getMessage(), e);
+        this.error = error;
+    }
     public CommonException(ErrorEnums error) {
         super(error.getMessage());
         this.error = error;

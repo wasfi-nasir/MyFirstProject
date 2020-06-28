@@ -2,11 +2,13 @@ package com.example.interviews.controller;
 
 import com.example.interviews.exception.CommonException;
 import com.example.interviews.exception.ErrorEnums;
+import com.example.interviews.service.CandidateService;
 import com.example.interviews.service.CandidateServiceImpl;
 import com.example.interviews.model.Candidate;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -18,7 +20,8 @@ import java.util.List;
 public class CandidateController {
    private final static Logger logger = LoggerFactory.getLogger(CandidateController.class);
     @Autowired
-    private CandidateServiceImpl candidatesService;
+    @Qualifier("candidateMongoService")
+    private CandidateService candidatesService;
 
     @GetMapping(value = {"/", ""}, params = { "page", "limit" })
     public List<Candidate> getAllCandidates(@RequestParam("page") int page, @RequestParam("limit") int limit){

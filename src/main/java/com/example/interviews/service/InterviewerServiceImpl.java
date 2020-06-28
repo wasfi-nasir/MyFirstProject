@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
 @Service
 public class InterviewerServiceImpl {
     private List<Interviewer> data = new ArrayList<>( Arrays.asList(
-            new Interviewer(1,"Mosab", "0595000000", "mosab@gmail.com", "Backend developer"),
-            new Interviewer(2,"Ali",  "0592000000", "Ali@gmail.com", "Frontend developer"),
-            new Interviewer(3,"Daoud",  "0598000000", "Daoud@gmail.com", "DV"),
-            new Interviewer(4,"Alaa",  "0599000000", "Alaa@gmail.com", "Frontend developer")
+            new Interviewer(1,"Mosab", "+970595000000", "mosab@gmail.com", "Backend developer"),
+            new Interviewer(2,"Ali",  "+970592000000", "Ali@gmail.com", "Frontend developer"),
+            new Interviewer(3,"Daoud",  "+970598000000", "Daoud@gmail.com", "DV"),
+            new Interviewer(4,"Alaa",  "+970599000000", "Alaa@gmail.com", "Frontend developer")
 
     ));
 
     public List<Interviewer> getAll(int page, int limit) {
-        return data.stream().skip(page).limit(limit).collect(Collectors.toList());
+        return data.stream().skip((page-1)*limit).limit(limit).collect(Collectors.toList());
     }
 
     public Interviewer getById(int id) {

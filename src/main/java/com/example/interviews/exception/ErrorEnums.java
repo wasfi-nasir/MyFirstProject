@@ -6,6 +6,7 @@ public enum ErrorEnums {
     PAGE_INVALID("page > 0",  HttpStatus.BAD_REQUEST),
     LIMIT_INVALID("limit > 0",  HttpStatus.BAD_REQUEST),
     ID_INVALID("id > 0",  HttpStatus.BAD_REQUEST),
+    FILE_INVALID("this file does not exist",  HttpStatus.NOT_FOUND),
     USERS_NOT_FOUND("there is no candidates in DB", HttpStatus.NOT_FOUND);
 
     private String message;

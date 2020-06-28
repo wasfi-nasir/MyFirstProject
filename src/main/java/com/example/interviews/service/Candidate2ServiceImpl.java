@@ -11,13 +11,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service("candidateMongoService")
-public class CandidateServiceImpl implements CandidateService {
+@Service("candidateMySQLService")
+public class Candidate2ServiceImpl implements CandidateService {
     private List<Candidate> data = new ArrayList<>(Arrays.asList(
-            new Candidate(1, "Ahmad", new Date(2020, 10,10),"10 am", "10 am", "Java"),
-            new Candidate(2, "Khaled", new Date(2020, 10,10), "11 am", "12 pm", "backend"),
-            new Candidate(3, "Wesam", new Date(2020, 10,10), "11 am", "12 pm", "DV"),
-            new Candidate(4, "Husam", new Date(2020, 10,10), "1 pm", "2 pm", "frontend")
+            new Candidate(1, "XYZZZZ", new Date(2020, 10,10),"10 am", "10 am", "Java"),
+            new Candidate(2, "wasfii", new Date(2020, 10,10), "11 am", "12 pm", "backend"),
+            new Candidate(3, "iiiii", new Date(2020, 10,10), "11 am", "12 pm", "DV"),
+            new Candidate(4, "wwwwwwwwwwwwww", new Date(2020, 10,10), "1 pm", "2 pm", "frontend")
     ));
 
     public List<Candidate> getAll(int page, int limit) {
