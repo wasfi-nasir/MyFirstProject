@@ -17,61 +17,67 @@ import java.util.List;
 @RestController
 @Validated
 @RequestMapping(value = "/api/v1/candidates")
-public class CandidateController {
+public class CandidateController implements CandidateService {
    private final static Logger logger = LoggerFactory.getLogger(CandidateController.class);
-    @Autowired
-    @Qualifier("candidateMongoService")
-    private CandidateService candidatesService;
 
-    @GetMapping(value = {"/", ""}, params = { "page", "limit" })
-    public List<Candidate> getAllCandidates(@RequestParam("page") int page, @RequestParam("limit") int limit){
+   @Autowired
+    CandidateService candidateService;
+
+    @GetMapping(value = {"/", ""})
+    public List<Candidate> getAll(){
         logger.debug("getAllCandidates method accessed");
-        if(page < 0) {
-            throw new CommonException(ErrorEnums.PAGE_INVALID);
-        }
-        if(limit < 0) {
-            throw new CommonException(ErrorEnums.LIMIT_INVALID);
-        }
-        return (candidatesService.getAll(page, limit));
+        return (candidateService.getAll());
     }
-
-    @GetMapping("/{id}")
-    public Candidate getCandidateById(@PathVariable("id") int id){
-        logger.debug("getCandidateById method accessed");
-        if(candidatesService.getById(id) == null) {
-            throw new CommonException(ErrorEnums.USER_NOT_FOUND);
-        }
-        else {
-            return candidatesService.getById(id);
-        }
-    }
-
-    @PostMapping(value = {"/", ""})
-    public Candidate createNewCandidate(@Valid @RequestBody Candidate candidate){
-        logger.debug("createNewCandidate method accessed");
-        if (candidatesService.save(candidate)){ return candidate; }
-        return null;
-    }
-
-    @PutMapping("/{id}")
-    public void modifyCandidate(@PathVariable int id, @RequestBody Candidate candidate){
-        logger.debug("modifyCandidate method accessed");
-        if(id < 0) {
-            throw new CommonException(ErrorEnums.ID_INVALID);
-        }
-        else {
-            candidatesService.edit(id, candidate);
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteCandidate(@PathVariable("id") int id){
-        logger.debug("deleteCandidate method accessed");
-        if(id < 0) {
-            throw new CommonException(ErrorEnums.ID_INVALID);
-        }
-        else {
-            candidatesService.delete(id);
-        }
-    }
+//
+//    @GetMapping(value = {"/", ""}, params = { "page", "limit" })
+//    public List<Candidate> getAllCandidates(@RequestParam("page") int page, @RequestParam("limit") int limit){
+//        logger.debug("getAllCandidates method accessed");
+//        if(page < 0) {
+//            throw new CommonException(ErrorEnums.PAGE_INVALID);
+//        }
+//        if(limit < 0) {
+//            throw new CommonException(ErrorEnums.LIMIT_INVALID);
+//        }
+//        return (candidatesService.getAll(page, limit));
+//    }
+//
+//    @GetMapping("/{id}")
+//    public Candidate getCandidateById(@PathVariable("id") int id){
+//        logger.debug("getCandidateById method accessed");
+//        if(candidatesService.getById(id) == null) {
+//            throw new CommonException(ErrorEnums.USER_NOT_FOUND);
+//        }
+//        else {
+//            return candidatesService.getById(id);
+//        }
+//    }
+//
+//    @PostMapping(value = {"/", ""})
+//    public Candidate createNewCandidate(@Valid @RequestBody Candidate candidate){
+//        logger.debug("createNewCandidate method accessed");
+//        if (candidatesService.save(candidate)){ return candidate; }
+//        return null;
+//    }
+//
+//    @PutMapping("/{id}")
+//    public void modifyCandidate(@PathVariable int id, @RequestBody Candidate candidate){
+//        logger.debug("modifyCandidate method accessed");
+//        if(id < 0) {
+//            throw new CommonException(ErrorEnums.ID_INVALID);
+//        }
+//        else {
+//            candidatesService.edit(id, candidate);
+//        }
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public void deleteCandidate(@PathVariable("id") int id){
+//        logger.debug("deleteCandidate method accessed");
+//        if(id < 0) {
+//            throw new CommonException(ErrorEnums.ID_INVALID);
+//        }
+//        else {
+//            candidatesService.delete(id);
+//        }
+//    }
 }

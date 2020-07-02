@@ -1,32 +1,39 @@
 package com.example.interviews.model;
 
 import com.example.interviews.annotation.Phone;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "interviewer")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Interviewer {
     @Id
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull(message = "Name cannot be null")
     private String name;
     @Phone
     private String phone;
     @Email(message = "Email should be valid")
+    @Column(name = "email")
     private String email;
     @Column(name = "job_Title")
     private String jobTitle;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "interviewers", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    //@JsonRawValue
+    private Set<Candidate> candidates;
+
 }

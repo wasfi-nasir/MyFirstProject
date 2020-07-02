@@ -16,6 +16,8 @@
 
 
 <properties>
+<!--    <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />-->
+<!--    <property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"/>-->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
@@ -92,8 +94,13 @@
     <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
-        <version>6.0.0.Alpha5</version>
-        <type>pom</type>
+        <version>5.4.18.Final</version>
+    </dependency>
+
+    <dependency>
+        <groupId>net.sf.ehcache</groupId>
+        <artifactId>ehcache</artifactId>
+        <version>2.10.6</version>
     </dependency>
 
 </dependencies>
