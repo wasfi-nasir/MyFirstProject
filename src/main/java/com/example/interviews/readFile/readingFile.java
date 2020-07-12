@@ -19,10 +19,10 @@ public class readingFile {
     public String read(@PathVariable("name") String name) throws IOException {
         InputStream is = null;
         try {
-           is = new ClassPathResource(name).getInputStream();
+            is = new ClassPathResource(name).getInputStream();
             String contents = new String(FileCopyUtils.copyToByteArray(is), StandardCharsets.UTF_8);
             return contents;
-        } catch (FileNotFoundException  e) {
+        } catch (FileNotFoundException e) {
             throw new CommonException(ErrorEnums.FILE_INVALID, e);
 
         } finally {

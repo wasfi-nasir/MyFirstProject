@@ -1,7 +1,7 @@
 package com.example.interviews.repo;
 
 import com.example.interviews.model.Company;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CompanyRepository extends CrudRepository<Company, Integer> {
+public interface CompanyRepository extends JpaRepository<Company, Integer> {
 }

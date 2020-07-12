@@ -8,13 +8,16 @@ public class CommonException extends RuntimeException {
         super(error.getMessage(), e);
         this.error = error;
     }
+
     public CommonException(ErrorEnums error) {
         super(error.getMessage());
         this.error = error;
     }
+
     public ErrorEnums getError() {
         return error;
     }
+
     public void setError(ErrorEnums error) {
         this.error = error;
     }

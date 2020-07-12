@@ -18,16 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class InterviewerServiceTest {
 
     @Autowired
-    InterviewerRepository interviewerRepository;
-
-//    @Test
-//    void testCreate(){
-//        Interviewer interviewer = new Interviewer(7, "Wasfi Nasir", "+970599104130", "wasfiNaser11@gmail.com", "backend developer");
-//        interviewerRepository.save(interviewer);
-//    }
+    private InterviewerRepository interviewerRepository;
 
     @Test
-    void testRead(){
+    void testRead() {
         Optional<Interviewer> interviewer = interviewerRepository.findById(1);
         System.out.println(interviewer.toString());
         assertNotNull(interviewer);
@@ -42,61 +36,63 @@ public class InterviewerServiceTest {
     }
 
     @Test
-    void testDelete(){
+    void testDelete() {
         interviewerRepository.deleteById(34);
     }
 
     @Test
-    public void testFindById(){
+    public void testFindById() {
         Optional<Interviewer> interviewer = interviewerRepository.findById(1);
         System.out.println(interviewer.get().toString());
     }
 
     @Test
-    public void testFindByName(){
+    public void testFindByName() {
         List<Interviewer> interviewer = interviewerRepository.findByName("Ali");
-        interviewer.forEach(i->System.out.println(i.toString()));
+        interviewer.forEach(i -> System.out.println(i.toString()));
     }
 
     @Test
-    public void testFindByNameNQ(){
+    public void testFindByNameNQ() {
         List<Interviewer> interviewer = interviewerRepository.findByNameNQ("Ali");
-        interviewer.forEach(i->System.out.println(i.toString()));
+        interviewer.forEach(i -> System.out.println(i.toString()));
     }
 
     @Test
-    public void testFindAllInterviewersNQ(){
+    public void testFindAllInterviewersNQ() {
         List<Interviewer> interviewer = interviewerRepository.findAllInterviewersNQ();
-        interviewer.forEach(i->System.out.println(i.toString()));
+        interviewer.forEach(i -> System.out.println(i.toString()));
     }
 
     @Test
-    public void testFindByNameAndJobTitle(){
+    public void testFindByNameAndJobTitle() {
         List<Interviewer> interviewer = interviewerRepository.findByNameAndJobTitle("Ali", "backend");
-        interviewer.forEach(i->System.out.println(i.toString()));
+        interviewer.forEach(i -> System.out.println(i.toString()));
     }
 
     @Test
-    public void testFindByNameOrJobTitle(){
+    public void testFindByNameOrJobTitle() {
         List<Interviewer> interviewer = interviewerRepository.findByNameOrJobTitle("Ali", "frontend");
-        interviewer.forEach(i->System.out.println(i.toString()));
+        interviewer.forEach(i -> System.out.println(i.toString()));
     }
 
     @Test
-    public void testFindByIdGreaterThan(){
+    public void testFindByIdGreaterThan() {
         List<Interviewer> interviewer = interviewerRepository.findByIdGreaterThan(2);
-        interviewer.forEach(i->System.out.println(i.toString()));
+        interviewer.forEach(i -> System.out.println(i.toString()));
     }
 
     @Test
-    public void testFindByIdIn(){
-        List<Interviewer> interviewer = interviewerRepository.findByIdIn(Arrays.asList(1,5,8));
-        interviewer.forEach(i->System.out.println(i.toString()));
+    public void testFindByIdIn() {
+        List<Interviewer> interviewer = interviewerRepository.findByIdIn(Arrays.asList(1, 5, 8));
+        interviewer.forEach(i -> System.out.println(i.toString()));
     }
+
     @Autowired
     CompanyRepository companyRepository;
+
     @Test
-    public void testCreateCompany(){
+    public void testCreateCompany() {
 
         Company company = new Company();
         company.setName("IT");
@@ -108,32 +104,33 @@ public class InterviewerServiceTest {
         employee2.setName("Nasir");
 
 
-       company.addEmployee(employee1);
-       company.addEmployee(employee2);
+        company.addEmployee(employee1);
+        company.addEmployee(employee2);
         companyRepository.save(company);
     }
+
     @Test
     @Transactional
-    public void testLoadCompany(){
+    public void testLoadCompany() {
         Optional<Company> company = companyRepository.findById(8);
         System.out.println(company.get().getName());
 
         Set<Employee> employeeSet = company.get().getEmployees();
-        employeeSet.forEach(e->System.out.println(e.getName()));
+        employeeSet.forEach(e -> System.out.println(e.getName()));
     }
 
     @Test
-    public void testUpdateCompany(){
+    public void testUpdateCompany() {
         Optional<Company> company = companyRepository.findById(3);
         company.get().setName("Exalt LTD.");
 
         Set<Employee> employeeSet = company.get().getEmployees();
-        employeeSet.forEach(e->e.setName("Ahmad"));
+        employeeSet.forEach(e -> e.setName("Ahmad"));
         companyRepository.save(company.get());
     }
 
     @Test
-    public void testDeleteCompany(){
+    public void testDeleteCompany() {
         companyRepository.deleteById(6);
     }
 }

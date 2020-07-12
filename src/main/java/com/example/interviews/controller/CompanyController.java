@@ -1,31 +1,37 @@
 package com.example.interviews.controller;
 
-
-import com.example.interviews.model.Candidate;
 import com.example.interviews.model.Company;
-import com.example.interviews.model.Employee;
-import com.example.interviews.repo.CompanyRepository;
+import com.example.interviews.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@Validated
 @RequestMapping(value = "/api/v1/company")
-
 public class CompanyController {
 
     @Autowired
-    CompanyRepository companyRepository;
+    private CompanyService companyService;
 
     @GetMapping(value = {"/", ""})
-    public List<Company> getAll(){
-        Iterable<Company> company = companyRepository.findAll();
-        return (List<Company>) company;
+    public List<Company> getAll() {
+        return companyService.getAll();
     }
 
+    @GetMapping(value = "/{id}")
+    public Optional<Company> getById(@PathVariable int id) {
+        return companyService.getById(id);
+    }
+
+    @PostMapping(value = {"/", ""})
+    public void createNewCompany(@RequestBody Company company) {
+        companyService.createNewCompany(company);
+    }
+
+    @PutMapping(value = "/{id}")
+    public void modifyCompany(@PathVariable int id, @RequestBody Company company) {
+        companyService.modifyCompany(id, company);
+    }
 }

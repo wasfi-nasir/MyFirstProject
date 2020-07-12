@@ -1,16 +1,18 @@
 package com.example.interviews.service;
 
+import com.example.interviews.dto.InterviewerDTO2;
 import com.example.interviews.model.Interviewer;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface InterviewService {
-    List<Interviewer> getAll();
-    Optional<Interviewer> getById(@PathVariable int id);
-    List<Object> findSpecificInformation(int id);
-//    Interviewer createNewInterviewer(@RequestBody Interviewer interviewer);
-//    void modifyInterviewer(@PathVariable int id, @RequestBody Interviewer interviewer);
-//    void deleteInterviewer(@PathVariable int id);
+    List<InterviewerDTO2> getAll(int pageNo, int pageSize);
+
+    InterviewerDTO2 getById(int id);
+
+    Interviewer createNewInterviewer(Interviewer interviewer);
+
+    Interviewer edit(int id, Interviewer interviewer);
+
+    void deleteInterviewer(int id);
 }

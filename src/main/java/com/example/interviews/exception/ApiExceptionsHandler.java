@@ -10,22 +10,23 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+
 @ControllerAdvice
 public class ApiExceptionsHandler extends ResponseEntityExceptionHandler {
 
-    final Logger logger=LoggerFactory.getLogger(ApiExceptionsHandler.class);
+    final Logger logger = LoggerFactory.getLogger(ApiExceptionsHandler.class);
 
     @ExceptionHandler(value = {CommonException.class})
-    public ResponseEntity<ApiError> resourceNotFoundException (CommonException ex, WebRequest request){
+    public ResponseEntity<ApiError> resourceNotFoundException(CommonException ex, WebRequest request) {
         logger.error("test the error {}", ex);
-        ApiError apiError = new ApiError(ex.getMessage(),request.getDescription(false));
+        ApiError apiError = new ApiError(ex.getMessage(), request.getDescription(false));
         return new ResponseEntity<>(apiError, new HttpHeaders(), ex.getError().getStatus());
     }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         logger.error("test the error {}", ex);
-       // ex.getBindingResult().getAllErrors().forEach(s-> {s.getDefaultMessage()})
-        ApiError apiError = new ApiError( ex.getBindingResult().getFieldError().getDefaultMessage(), request.getDescription(false));
+        ApiError apiError = new ApiError(ex.getBindingResult().getFieldError().getDefaultMessage(), request.getDescription(false));
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,4 +1,5 @@
 package com.example.interviews.exception;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
@@ -17,7 +18,6 @@ public class ApiError {
         this();
         this.message = message;
         this.uri = uri;
-
     }
 
     public String getUri() {
