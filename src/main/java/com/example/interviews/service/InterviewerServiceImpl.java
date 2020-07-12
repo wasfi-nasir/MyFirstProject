@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class InterviewerServiceImpl implements InterviewService {
+public class InterviewerServiceImpl implements InterviewerService {
 
     @Autowired
     private InterviewerRepository interviewerRepository;

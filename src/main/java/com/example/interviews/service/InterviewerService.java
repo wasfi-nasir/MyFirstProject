@@ -5,7 +5,7 @@ import com.example.interviews.model.Interviewer;
 
 import java.util.List;
 
-public interface InterviewService {
+public interface InterviewerService {
     List<InterviewerDTO2> getAll(int pageNo, int pageSize);
 
     InterviewerDTO2 getById(int id);

@@ -1,7 +1,6 @@
 package com.example.interviews.controller;
 
 import com.example.interviews.dto.InterviewerDTO2;
-import com.example.interviews.service.InterviewService;
 import com.example.interviews.model.Interviewer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ public class InterviewerController {
     private final static Logger logger = LoggerFactory.getLogger(CandidateController.class);
 
     @Autowired
-    private InterviewService InterviewerService;
+    private com.example.interviews.service.InterviewerService InterviewerService;
 
     @GetMapping(value = "/page/{pageNo}/{pageSize}")
     public List<InterviewerDTO2> getAllInterviewers(@PathVariable int pageNo, @PathVariable int pageSize) {
