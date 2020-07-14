@@ -16,7 +16,7 @@ public class CandidateDTO {
     private String subject;
 
     @JsonProperty("interviewers")
-    private Set<InterviewerDTO> interviewers;
+    private Set<CandidateInterviewers> interviewers;
 
     public int getId() {
         return id;
@@ -38,7 +38,7 @@ public class CandidateDTO {
         this.subject = subject;
     }
 
-    public void setInterviewers(Set<InterviewerDTO> interviewers) {
+    public void setInterviewers(Set<CandidateInterviewers> interviewers) {
         this.interviewers = interviewers;
     }
 }

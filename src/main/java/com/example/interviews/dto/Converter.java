@@ -9,5 +9,5 @@ public interface Converter {
 
     CandidateDTO convertCandidateToDto(Candidate candidate);
 
-    InterviewerDTO2 convertInterviewerToDto(Interviewer interviewer);
+    InterviewerDTO convertInterviewerToDto(Interviewer interviewer);
 }

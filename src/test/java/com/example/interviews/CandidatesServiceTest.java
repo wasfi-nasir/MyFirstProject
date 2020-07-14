@@ -14,7 +14,6 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @SpringBootTest
 public class CandidatesServiceTest {
 
@@ -39,14 +38,14 @@ public class CandidatesServiceTest {
         candidate.setName("Odai");
         candidate.setSubject("Backend");
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(2021, 12, 1, 11, 0, 0);
-        candidate.setDate(calendar.getTime());
-
-        Optional<Interviewer> interviewerDB = interviewerRepository.findById(5);
-        HashSet<Interviewer> interviewers = new HashSet<>();
-        interviewers.add(interviewerDB.get());
-        candidate.setInterviewers(interviewers);
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(2021, 12, 1, 11, 0, 0);
+//        candidate.setDate(calendar.getTime());
+//
+//        Optional<Interviewer> interviewerDB = interviewerRepository.findById(5);
+//        HashSet<Interviewer> interviewers = new HashSet<>();
+//        interviewers.add(interviewerDB.get());
+//        candidate.setInterviewers(interviewers);
 
         assertNotNull(candidateService.createNewCandidate(candidate));
     }

@@ -25,28 +25,20 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public List<CandidateDTO> getAll() {
-        List<Candidate> candidate = candidateRepository.findAll();
-        return candidate.stream().map(converter::convertCandidateToDto).collect(Collectors.toList());
+        return candidateRepository.findAll().stream()
+                .map(converter::convertCandidateToDto).collect(Collectors.toList());
     }
 
     @Override
     public CandidateDTO getById(int id) {
-        Optional<Candidate> candidate = candidateRepository.findById(id);
-        if (candidate.isPresent()) {
-            return converter.convertCandidateToDto(candidate.get());
-        } else {
-            throw new CommonException(ErrorEnums.USER_NOT_FOUND);
-        }
+        return converter.convertCandidateToDto(candidateRepository.findById(id)
+                .orElseThrow(() -> new CommonException(ErrorEnums.USER_NOT_FOUND)));
     }
 
     @Override
     public void delete(int id) {
-        Optional<Candidate> candidate = candidateRepository.findById(id);
-        if (candidate.isPresent())
-            candidateRepository.deleteById(id);
-        else {
-            throw new CommonException(ErrorEnums.USER_NOT_FOUND);
-        }
+        candidateRepository.findById(id).orElseThrow(() -> new CommonException(ErrorEnums.USER_NOT_FOUND));
+        candidateRepository.deleteById(id);
     }
 
     @Override
@@ -54,8 +46,10 @@ public class CandidateServiceImpl implements CandidateService {
         if (candidate.getId() != null) {
             throw new CommonException(ErrorEnums.ID_IS_AUTO_INCREMENT);
         }
-        candidateRepository.save(candidate);
-        return candidate;
+        else {
+            candidateRepository.save(candidate);
+            return candidate;
+        }
     }
 
     @Override

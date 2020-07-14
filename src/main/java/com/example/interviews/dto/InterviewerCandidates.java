@@ -2,7 +2,7 @@ package com.example.interviews.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class CandidateDTO2 {
+public class InterviewerCandidates {
     @JsonProperty("name")
     private String name;
     @JsonProperty("subject")

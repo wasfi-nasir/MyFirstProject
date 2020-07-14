@@ -1,14 +1,14 @@
 package com.example.interviews.service;
 
-import com.example.interviews.dto.InterviewerDTO2;
+import com.example.interviews.dto.InterviewerDTO;
 import com.example.interviews.model.Interviewer;
 
 import java.util.List;
 
 public interface InterviewerService {
-    List<InterviewerDTO2> getAll(int pageNo, int pageSize);
+    List<InterviewerDTO> getAll(int pageNo, int pageSize);
 
-    InterviewerDTO2 getById(int id);
+    InterviewerDTO getById(int id);
 
     Interviewer createNewInterviewer(Interviewer interviewer);
 

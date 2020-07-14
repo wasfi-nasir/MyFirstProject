@@ -6,13 +6,11 @@ import com.example.interviews.model.Candidate;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Validated
 @RequestMapping(value = "/api/v1/candidates")
 public class CandidateController {
     private final static Logger logger = LoggerFactory.getLogger(CandidateController.class);

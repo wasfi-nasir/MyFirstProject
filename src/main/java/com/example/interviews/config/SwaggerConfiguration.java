@@ -1,4 +1,4 @@
-package com.example.interviews.service;
+package com.example.interviews.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

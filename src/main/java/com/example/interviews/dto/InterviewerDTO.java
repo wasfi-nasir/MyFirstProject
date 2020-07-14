@@ -2,10 +2,9 @@ package com.example.interviews.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class InterviewerDTO {
+import java.util.Set;
 
-    @JsonProperty("id")
-    private int id;
+public class InterviewerDTO {
 
     @JsonProperty("name")
     private String name;
@@ -13,13 +12,8 @@ public class InterviewerDTO {
     @JsonProperty("phone")
     private String phone;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @JsonProperty("candidates")
+    private Set<InterviewerCandidates> candidates;
 
     public String getName() {
         return name;
@@ -31,5 +25,9 @@ public class InterviewerDTO {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public void setCandidates(Set<InterviewerCandidates> candidates) {
+        this.candidates = candidates;
     }
 }

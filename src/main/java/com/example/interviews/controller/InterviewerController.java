@@ -1,6 +1,6 @@
 package com.example.interviews.controller;
 
-import com.example.interviews.dto.InterviewerDTO2;
+import com.example.interviews.dto.InterviewerDTO;
 import com.example.interviews.model.Interviewer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +18,13 @@ public class InterviewerController {
     private com.example.interviews.service.InterviewerService InterviewerService;
 
     @GetMapping(value = "/page/{pageNo}/{pageSize}")
-    public List<InterviewerDTO2> getAllInterviewers(@PathVariable int pageNo, @PathVariable int pageSize) {
+    public List<InterviewerDTO> getAllInterviewers(@PathVariable int pageNo, @PathVariable int pageSize) {
         logger.debug("getAllInterviewers method accessed");
         return InterviewerService.getAll(pageNo, pageSize);
     }
 
     @GetMapping("/{id}")
-    public InterviewerDTO2 getInterviewer(@PathVariable int id) {
+    public InterviewerDTO getInterviewer(@PathVariable int id) {
         logger.debug("getInterviewer method accessed");
         return (InterviewerService.getById(id));
     }

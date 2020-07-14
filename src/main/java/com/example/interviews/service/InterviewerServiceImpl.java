@@ -1,7 +1,7 @@
 package com.example.interviews.service;
 
 import com.example.interviews.dto.Converter;
-import com.example.interviews.dto.InterviewerDTO2;
+import com.example.interviews.dto.InterviewerDTO;
 import com.example.interviews.exception.CommonException;
 import com.example.interviews.exception.ErrorEnums;
 import com.example.interviews.model.Interviewer;
@@ -13,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +24,7 @@ public class InterviewerServiceImpl implements InterviewerService {
     private Converter converter = Mappers.getMapper(Converter.class);
 
     @Override
-    public List<InterviewerDTO2> getAll(int pageNo, int pageSize) {
+    public List<InterviewerDTO> getAll(int pageNo, int pageSize) {
         if (pageNo < 0) {
             throw new CommonException(ErrorEnums.PAGE_INVALID);
         } else if (pageSize < 1) {
@@ -38,12 +37,9 @@ public class InterviewerServiceImpl implements InterviewerService {
     }
 
     @Override
-    public InterviewerDTO2 getById(int id) {
-        Optional<Interviewer> interviewer = interviewerRepository.findById(id);
-        if (!interviewer.isPresent()) {
-            throw new CommonException(ErrorEnums.USER_NOT_FOUND);
-        }
-        return converter.convertInterviewerToDto(interviewer.get());
+    public InterviewerDTO getById(int id) {
+        return converter.convertInterviewerToDto(interviewerRepository.findById(id)
+                .orElseThrow(() -> new CommonException(ErrorEnums.USER_NOT_FOUND)));
     }
 
     @Override
@@ -68,11 +64,7 @@ public class InterviewerServiceImpl implements InterviewerService {
 
     @Override
     public void deleteInterviewer(int id) {
-        if (!interviewerRepository.findById(id).isPresent()) {
-            throw new CommonException(ErrorEnums.USER_NOT_FOUND);
-        } else {
-            interviewerRepository.deleteById(id);
-        }
+        interviewerRepository.findById(id).orElseThrow(() -> new CommonException(ErrorEnums.USER_NOT_FOUND));
+        interviewerRepository.deleteById(id);
     }
-
 }
