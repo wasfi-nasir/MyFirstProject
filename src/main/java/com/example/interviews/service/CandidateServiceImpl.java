@@ -63,7 +63,7 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public List<CandidateDTO> findPaginated(int pageNo, int pageSize) {
+    public Page<CandidateDTO> findPaginated(int pageNo, int pageSize) {
         if (pageNo < 0) {
             throw new CommonException(ErrorEnums.PAGE_INVALID);
         } else if (pageSize < 1) {
@@ -71,7 +71,7 @@ public class CandidateServiceImpl implements CandidateService {
         } else {
             PageRequest paging = PageRequest.of(pageNo, pageSize);
             Page<Candidate> pagedResult = candidateRepository.findAll(paging);
-            return pagedResult.toList().stream().map(converter::convertCandidateToDto).collect(Collectors.toList());
+            return pagedResult.map(converter::convertCandidateToDto);
         }
     }
 }

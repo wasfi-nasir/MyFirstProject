@@ -1,60 +1,67 @@
 package com.example.interviews;
 
+
 import com.example.interviews.model.Company;
-import com.example.interviews.model.Employee;
 import com.example.interviews.repo.CompanyRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Optional;
-import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CompanyServiceTest {
 
     @Autowired
     private CompanyRepository companyRepository;
 
-    @Test
-    public void testCreateCompany() {
+    TestRestTemplate testRestTemplate = new TestRestTemplate();
 
+    @LocalServerPort
+    int localPort;
+
+    @BeforeEach
+    void createObject() {
         Company company = new Company();
-        company.setName("IT");
-
-        Employee employee1 = new Employee();
-        employee1.setName("Wasfi");
-
-        Employee employee2 = new Employee();
-        employee2.setName("Nasir");
-
-
-        company.addEmployee(employee1);
-        company.addEmployee(employee2);
+        company.setName("ahmad");
         companyRepository.save(company);
     }
 
     @Test
-    @Transactional
-    public void testLoadCompany() {
-        Optional<Company> company = companyRepository.findById(8);
-        System.out.println(company.get().getName());
-
-        Set<Employee> employeeSet = company.get().getEmployees();
-        employeeSet.forEach(e -> System.out.println(e.getName()));
+    public void testFindById() {
+        ResponseEntity<Company> result = testRestTemplate.getForEntity("http://localhost:"+ localPort +"/api/v1/company/" + companyRepository.greatestId()
+                , Company.class);
+        assertEquals("ahmad", result.getBody().getName());
     }
 
     @Test
-    public void testUpdateCompany() {
-        Optional<Company> company = companyRepository.findById(3);
-        company.get().setName("Exalt LTD.");
-
-        Set<Employee> employeeSet = company.get().getEmployees();
-        employeeSet.forEach(e -> e.setName("Ahmad"));
-        companyRepository.save(company.get());
+    void testUpdate() throws URISyntaxException {
+        int greatestId = companyRepository.greatestId();
+        Optional<Company> company = companyRepository.findById(greatestId);
+        company.get().setName("wasfi");
+        final String baseUrl = "http://localhost:" + localPort + "/api/v1/company/" + greatestId;
+        URI uri = new URI(baseUrl);
+        testRestTemplate.put(uri, company);
+        ResponseEntity<Company> result = testRestTemplate.getForEntity(uri, Company.class);
+        assertEquals("wasfi", result.getBody().getName());
     }
 
     @Test
-    public void testDeleteCompany() {
-        companyRepository.deleteById(6);
+    public void testMToMDelete() throws URISyntaxException {
+        final String baseUrl = "http://localhost:" + localPort + "/api/v1/company/" + companyRepository.greatestId();
+        URI uri = new URI(baseUrl);
+        testRestTemplate.delete(uri);
+        ResponseEntity<Company> result = testRestTemplate.getForEntity(uri, Company.class);
+        assertEquals(404, result.getStatusCodeValue());
     }
 }

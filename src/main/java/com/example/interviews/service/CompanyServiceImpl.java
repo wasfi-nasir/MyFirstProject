@@ -1,12 +1,13 @@
 package com.example.interviews.service;
 
+import com.example.interviews.exception.CommonException;
+import com.example.interviews.exception.ErrorEnums;
 import com.example.interviews.model.Company;
 import com.example.interviews.repo.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -21,14 +22,17 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public Optional<Company> getById(int id) {
-        Optional<Company> company = companyRepository.findById(id);
-        return company;
+    public Company getById(int id) {
+        return companyRepository.findById(id).orElseThrow(() -> new CommonException(ErrorEnums.USER_NOT_FOUND));
     }
 
     @Override
     public Company createNewCompany(Company company) {
-        return companyRepository.save(company);
+        if (company.getId() != null) {
+            throw new CommonException(ErrorEnums.ID_IS_AUTO_INCREMENT);
+        }
+        companyRepository.save(company);
+        return company;
     }
 
     @Override
@@ -37,5 +41,11 @@ public class CompanyServiceImpl implements CompanyService {
         temp.setName(company.getName());
         temp.setEmployees(company.getEmployees());
         return companyRepository.save(temp);
+    }
+
+    @Override
+    public void delete(int id) {
+        companyRepository.findById(id).orElseThrow(() -> new CommonException(ErrorEnums.USER_NOT_FOUND));
+        companyRepository.deleteById(id);
     }
 }

@@ -19,4 +19,8 @@ public interface CandidateRepository extends JpaRepository<Candidate, Integer> {
     List<Candidate> findByName(@Param("name") String name);
 
 
+    @Query(value = "SELECT MAX(ID) FROM candidate", nativeQuery = true)
+    int greatestId();
+
+
 }

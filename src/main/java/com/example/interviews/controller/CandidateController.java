@@ -6,6 +6,7 @@ import com.example.interviews.model.Candidate;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,38 +19,67 @@ public class CandidateController {
     @Autowired
     private CandidateService candidateService;
 
+    /**
+     *
+     * @return
+     */
     @GetMapping(value = {"/", ""})
     public List<CandidateDTO> getAll() {
         logger.debug("getAllCandidates method accessed");
         return candidateService.getAll();
     }
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public CandidateDTO getCandidate(@PathVariable int id) {
         logger.debug("getCandidateById method accessed");
         return candidateService.getById(id);
     }
 
+    /**
+     *
+     * @param id
+     */
     @DeleteMapping("/{id}")
     public void deleteCandidate(@PathVariable("id") int id) {
         logger.debug("deleteCandidate method accessed");
         candidateService.delete(id);
     }
 
+    /**
+     *
+     * @param candidate
+     * @return
+     */
     @PostMapping(value = {"/", ""})
-    public void createNewCandidate(@RequestBody Candidate candidate) {
+    public Candidate createNewCandidate(@RequestBody Candidate candidate) {
         logger.debug("createNewCandidate method accessed");
-        candidateService.createNewCandidate(candidate);
+        return candidateService.createNewCandidate(candidate);
     }
 
+    /**
+     *
+     * @param id
+     * @param candidate
+     */
     @PutMapping("/{id}")
     public void modifyCandidate(@PathVariable int id, @RequestBody Candidate candidate) {
         logger.debug("modifyCandidate method accessed");
         candidateService.edit(id, candidate);
     }
 
+    /**
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
     @GetMapping(value = "/page/{pageNo}/{pageSize}")
-    public List<CandidateDTO> getPaginatedCandidates(@PathVariable int pageNo, @PathVariable int pageSize) {
+    public Page<CandidateDTO> getPaginatedCandidates(@PathVariable int pageNo, @PathVariable int pageSize) {
         return candidateService.findPaginated(pageNo, pageSize);
     }
 }

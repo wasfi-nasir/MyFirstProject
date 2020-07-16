@@ -2,106 +2,79 @@ package com.example.interviews;
 
 import com.example.interviews.dto.CandidateDTO;
 import com.example.interviews.model.Candidate;
-import com.example.interviews.model.Interviewer;
 import com.example.interviews.repo.CandidateRepository;
-import com.example.interviews.repo.InterviewerRepository;
-import com.example.interviews.service.CandidateService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CandidatesServiceTest {
 
     @Autowired
     private CandidateRepository candidateRepository;
 
-    @Autowired
-    private InterviewerRepository interviewerRepository;
+    @LocalServerPort
+    int localPort;
 
-    @Autowired
-    private CandidateService candidateService;
+    TestRestTemplate testRestTemplate = new TestRestTemplate();
 
-    @Test
-    void testRead() {
-        CandidateDTO candidate = candidateService.getById(3);
-        assertNotNull(candidate);
-    }
-
-    @Test
-    public void testMToMCreate() {
+    @BeforeEach
+    void createObject() {
         Candidate candidate = new Candidate();
-        candidate.setName("Odai");
-        candidate.setSubject("Backend");
-
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(2021, 12, 1, 11, 0, 0);
-//        candidate.setDate(calendar.getTime());
-//
-//        Optional<Interviewer> interviewerDB = interviewerRepository.findById(5);
-//        HashSet<Interviewer> interviewers = new HashSet<>();
-//        interviewers.add(interviewerDB.get());
-//        candidate.setInterviewers(interviewers);
-
-        assertNotNull(candidateService.createNewCandidate(candidate));
+        candidate.setSubject("dv");
+        candidate.setName("ahmad");
+        candidateRepository.save(candidate);
     }
 
     @Test
-    void testUpdate() {
-        Optional<Candidate> candidate = candidateRepository.findById(3);
-        candidateService.edit(4, candidate.get());
-        assertNotNull(candidate);
-        Optional<Candidate> candidateModified = candidateRepository.findById(4);
-        assertNotEquals(candidate.get(), candidateModified.get());
+    public void testFindById() throws URISyntaxException {
+        final String baseUrl = "http://localhost:" + localPort + "/api/v1/candidates/" + candidateRepository.greatestId();
+        URI uri = new URI(baseUrl);
+        ResponseEntity<CandidateDTO> result = testRestTemplate.getForEntity(uri, CandidateDTO.class);
+        assertEquals("ahmad", result.getBody().getName());
     }
 
     @Test
-    public void testFindById() {
-        Optional<Candidate> candidates = candidateRepository.findById(1);
-        System.out.println(candidates.get().toString());
+    void testUpdate() throws URISyntaxException {
+        int greatestId = candidateRepository.greatestId();
+        Optional<Candidate> candidate = candidateRepository.findById(greatestId);
+        candidate.get().setName("wasfi");
+        final String baseUrl = "http://localhost:" + localPort + "/api/v1/candidates/" + greatestId;
+        URI uri = new URI(baseUrl);
+        testRestTemplate.put(uri, candidate);
+        ResponseEntity<CandidateDTO> result = testRestTemplate.getForEntity(uri, CandidateDTO.class);
+        assertEquals("wasfi", result.getBody().getName());
     }
 
     @Test
-    public void testFindByName() {
-        List<Candidate> candidate = candidateRepository.findByName("wasfi");
-        candidate.forEach(c -> System.out.println(c.toString()));
+    public void testPost() throws URISyntaxException {
+        Candidate candidate = new Candidate();
+        candidate.setSubject("dv");
+        candidate.setName("ahmad");
+        final String baseUrl = "http://localhost:" + localPort + "/api/v1/candidates";
+        URI uri = new URI(baseUrl);
+        ResponseEntity<Candidate> result = testRestTemplate.postForEntity(uri, candidate , Candidate.class);
+        assertEquals(200, result.getStatusCodeValue());
+        assertEquals("dv", result.getBody().getSubject());
     }
-
     @Test
-    public void testFindByNameAndJobTitle() {
-        List<Candidate> candidate = candidateRepository.findByNameAndSubject("wasfi", "big data");
-        candidate.forEach(c -> System.out.println(c.toString()));
-    }
-
-    @Test
-    public void testFindBySubjectContains() {
-        List<Candidate> candidates = candidateRepository.findBySubjectContains("end");
-        candidates.forEach(c -> System.out.println(c.toString()));
-    }
-
-    @Test
-    public void testFindByNameLike() {
-        List<Candidate> candidate = candidateRepository.findByNameLike("w%");
-        candidate.forEach(c -> System.out.println(c.toString()));
-    }
-
-    @Test
-    public void testMToMLoad() {
-        Optional<Candidate> candidate = candidateRepository.findById(1);
-        System.out.println(candidate.get());
-        candidateRepository.findById(1);
-        candidateRepository.findById(1);
-        candidateRepository.findById(1);
-        candidateRepository.findById(1);
-        System.out.println(candidate.get().getInterviewers());
-    }
-
-    @Test
-    public void testMToMDelete() {
-        candidateRepository.deleteById(13);
+    public void testMToMDelete() throws URISyntaxException {
+        final String baseUrl = "http://localhost:" + localPort + "/api/v1/candidates/" + candidateRepository.greatestId();
+        URI uri = new URI(baseUrl);
+        testRestTemplate.delete(uri);
+        ResponseEntity<CandidateDTO> result = testRestTemplate.getForEntity(uri, CandidateDTO.class);
+        assertEquals(404, result.getStatusCodeValue());
     }
 }

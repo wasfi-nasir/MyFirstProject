@@ -27,4 +27,7 @@ public interface InterviewerRepository extends JpaRepository<Interviewer, Intege
     @Query(value = "select interviewer.name,interviewer.phone from interview inner join interviewer on interview.Iid =:id", nativeQuery = true)
     List<Object> findNQ(@Param("id") int id);
 
+    @Query(value = "SELECT MAX(ID) FROM interviewer", nativeQuery = true)
+    int greatestId();
+
 }
