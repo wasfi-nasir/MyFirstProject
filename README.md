@@ -11,16 +11,19 @@ The project is an interview scheduling system that you can use for yourself only
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+1. open cmd and change the directory to the project location.
+2. run this command: mvn clean install
+
+To run the main use this command: mvn spring-boot:run
 
 ## Built With
 
 * Spring boot 2 - The web framework used
 * [Maven](https://maven.apache.org/) - Dependency Management
 
-## Versioning
+## API Decumentaion
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+[swagger](http://localhost:8080/swagger-ui.html)
 
 ## Authors
 
