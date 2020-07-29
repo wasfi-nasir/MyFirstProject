@@ -17,55 +17,31 @@ public class InterviewerController {
     @Autowired
     private com.example.interviews.service.InterviewerService InterviewerService;
 
-    /**
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @GetMapping(value = "/page/{pageNo}/{pageSize}")
-    public List<InterviewerDTO> getAllInterviewers(@PathVariable int pageNo, @PathVariable int pageSize) {
+    @GetMapping(value = "/page")
+    public List<InterviewerDTO> getAllInterviewers(@RequestParam(value = "pageNo") int pageNo,
+                                                   @RequestParam(value = "pageSize") int pageSize) {
         logger.debug("getAllInterviewers method accessed");
         return InterviewerService.getAll(pageNo, pageSize);
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
     @GetMapping("/{id}")
     public InterviewerDTO getInterviewer(@PathVariable int id) {
         logger.debug("getInterviewer method accessed");
         return (InterviewerService.getById(id));
     }
 
-    /**
-     *
-     * @param interviewer
-     * @return
-     */
     @PostMapping(value = {"/", ""})
     public Interviewer createNewInterviewer(@RequestBody Interviewer interviewer) {
         logger.debug("createNewInterviewer method accessed");
         return InterviewerService.createNewInterviewer(interviewer);
     }
 
-    /**
-     *
-     * @param id
-     */
     @DeleteMapping("/{id}")
     public void deleteInterviewer(@PathVariable("id") int id) {
         logger.debug("deleteInterviewer method accessed");
         InterviewerService.deleteInterviewer(id);
     }
 
-    /**
-     *
-     * @param id
-     * @param interviewer
-     */
     @PutMapping("/{id}")
     public void modifyInterviewer(@PathVariable int id, @RequestBody Interviewer interviewer) {
         logger.debug("modifyInterviewer method accessed");

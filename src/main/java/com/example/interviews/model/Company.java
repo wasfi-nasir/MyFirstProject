@@ -17,15 +17,15 @@ public class Company {
 
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
-    private Set<Employee> employees;
+    private Set<Interviewer> interviewers;
 
-    public void addEmployee(Employee employee) {
-        if (employee != null) {
-            if (employees == null) {
-                employees = new HashSet<>();
+    public void addInterviewer(Interviewer interviewer) {
+        if (interviewer != null) {
+            if (interviewers == null) {
+                interviewers = new HashSet<>();
             }
-            employee.setCompany(this);
-            employees.add(employee);
+            interviewer.setCompany(this);
+            interviewers.add(interviewer);
         }
     }
 
@@ -34,7 +34,7 @@ public class Company {
         return "Company{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", employees=" + employees +
+                ", interviewers=" + interviewers +
                 '}';
     }
 
@@ -54,11 +54,11 @@ public class Company {
         this.name = name;
     }
 
-    public Set<Employee> getEmployees() {
-        return employees;
+    public Set<Interviewer> getInterviewers() {
+        return interviewers;
     }
 
-    public void setEmployees(Set<Employee> employees) {
-        this.employees = employees;
+    public void setInterviewers(Set<Interviewer> interviewers) {
+        this.interviewers = interviewers;
     }
 }

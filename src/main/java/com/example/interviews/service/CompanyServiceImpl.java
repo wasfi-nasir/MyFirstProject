@@ -39,7 +39,7 @@ public class CompanyServiceImpl implements CompanyService {
     public Company modifyCompany(int id, Company company) {
         Company temp = companyRepository.findById(id).get();
         temp.setName(company.getName());
-        temp.setEmployees(company.getEmployees());
+        temp.setInterviewers(company.getInterviewers());
         return companyRepository.save(temp);
     }
 

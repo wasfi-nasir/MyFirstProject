@@ -45,9 +45,9 @@ public class CandidateController {
      * @param id
      */
     @DeleteMapping("/{id}")
-    public void deleteCandidate(@PathVariable("id") int id) {
+    public String deleteCandidate(@PathVariable("id") int id) {
         logger.debug("deleteCandidate method accessed");
-        candidateService.delete(id);
+        return candidateService.delete(id);
     }
 
     /**

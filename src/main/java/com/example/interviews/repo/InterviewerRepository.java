@@ -30,4 +30,7 @@ public interface InterviewerRepository extends JpaRepository<Interviewer, Intege
     @Query(value = "SELECT MAX(ID) FROM interviewer", nativeQuery = true)
     int greatestId();
 
+    @Query(value = "SELECT * FROM interviewer u WHERE u.user_Name=:username", nativeQuery = true)
+    Interviewer getInterviewerByUsername(@Param("username") String username);
+
 }

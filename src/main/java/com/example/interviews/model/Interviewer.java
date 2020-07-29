@@ -2,7 +2,6 @@ package com.example.interviews.model;
 
 import com.example.interviews.annotation.Phone;
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +36,18 @@ public class Interviewer {
 
     @ManyToMany(mappedBy = "interviewers", fetch = FetchType.EAGER)
     private Set<Candidate> candidates;
+
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    @JsonBackReference
+    private Company company;
+
+    @Column(name = "user_Name")
+    private String userName;
+
+    private String password;
+
+    private String role;
 
     public Integer getId() {
         return id;
@@ -84,5 +95,37 @@ public class Interviewer {
 
     public void setCandidates(Set<Candidate> candidates) {
         this.candidates = candidates;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

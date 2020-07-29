@@ -36,9 +36,10 @@ public class CandidateServiceImpl implements CandidateService {
     }
 
     @Override
-    public void delete(int id) {
+    public String delete(int id) {
         candidateRepository.findById(id).orElseThrow(() -> new CommonException(ErrorEnums.USER_NOT_FOUND));
         candidateRepository.deleteById(id);
+        return "Address has been deleted.";
     }
 
     @Override
@@ -64,12 +65,12 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Page<CandidateDTO> findPaginated(int pageNo, int pageSize) {
-        if (pageNo < 0) {
+        if (pageNo < 1) {
             throw new CommonException(ErrorEnums.PAGE_INVALID);
         } else if (pageSize < 1) {
             throw new CommonException(ErrorEnums.LIMIT_INVALID);
         } else {
-            PageRequest paging = PageRequest.of(pageNo, pageSize);
+            PageRequest paging = PageRequest.of(pageNo -1, pageSize);
             Page<Candidate> pagedResult = candidateRepository.findAll(paging);
             return pagedResult.map(converter::convertCandidateToDto);
         }

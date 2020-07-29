@@ -9,7 +9,7 @@ import java.util.List;
 public interface CandidateService {
     List<CandidateDTO> getAll();
     CandidateDTO getById(int id);
-    void delete(int id);
+    String delete(int id);
     Candidate createNewCandidate(Candidate candidate);
     Candidate edit(int id, Candidate candidate);
     Page<CandidateDTO> findPaginated(int pageNo, int pageSize);

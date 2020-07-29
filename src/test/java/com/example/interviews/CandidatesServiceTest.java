@@ -28,7 +28,8 @@ public class CandidatesServiceTest {
     @LocalServerPort
     int localPort;
 
-    TestRestTemplate testRestTemplate = new TestRestTemplate();
+    @Autowired
+    TestRestTemplate testRestTemplate;
 
     @BeforeEach
     void createObject() {
@@ -69,6 +70,7 @@ public class CandidatesServiceTest {
         assertEquals(200, result.getStatusCodeValue());
         assertEquals("dv", result.getBody().getSubject());
     }
+
     @Test
     public void testMToMDelete() throws URISyntaxException {
         final String baseUrl = "http://localhost:" + localPort + "/api/v1/candidates/" + candidateRepository.greatestId();
